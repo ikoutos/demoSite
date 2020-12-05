@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="height=device-height, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://hosted.paysafe.com/request/v1/latest/paysafe.request.min.js"></script>
+</head>
+<body>
+  <script>
+       $(document).ready(function() {
+	    function compute() {
+          var a = $('#prodQ').val();
+          var b = $('#price').val();
+          var total = a * b;
+          $('#total').val(total);
+          $('#totalPay').replaceWith(total);
+        }
+        $('#prodQ').change(compute);
+	  });
+  </script>
+  <style>
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon > i {
+      position: absolute;
+      display: block;
+      transform: translate(0, -50%);
+      top: 50%;
+      left: 42%;
+      pointer-events: none;
+      width: 25px;
+      text-align: center;
+      font-style: normal;
+    }
+
+    .input-icon > input {
+      padding-left: 25px;
+      padding-right: 0;
+    }
+    .error{
+      width: 100%;
+      margin-top: .25rem;
+      font-size: 80%;
+      color: #dc3545;
+    }
+  </style>
+<div class="jumbotron text-center" style="background-color: #435d78;">
+  <h1 style="color: beige;">Web Store</h1>
+  <p></p> 
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top ml-5" src="img/mobi2.jfif" alt="Mobile black" style="width: 200px; height: 250px;">
+        <div class="card-body">
+          <div class="row">
+             <h4 class="card-title col-sm-5">ePhone<br><span style="font-size: 0.8rem;">128Gb/36MP/Red</span></h4>
+            <h4 class="card-text ml-5">$500</h4>
+            <input type="number" name="price" id="price" value="500" hidden>
+          </div>
+          <div class="">
+            <div class="row"><span class="col-sm-5 font-weight-bold">Quantity:</span>
+              <select id="prodQ" class="form-control col-sm-5" name="quantity" required>
+                <option value="" selected="true">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="row input-icon mt-2"><span class="col-sm-5 font-weight-bold">Total:</span><input class="form-control col-sm-5" type="number" name="Total" id="total" placeholder="0.00" readonly ><i>$</i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card text-center w-50">
+      <div class="card-header font-weight-bold">
+       <h5>Enter Checkout Details</h5>
+      </div>
+      <div class="card-body">
+        <form class="was-validated" enctype="multipart/form-data">
+          <div class="row">
+              <input type="text" class="form-control col-sm-10 ml-4" pattern="[a-zA-Z-]+\s[a-zA-Z-]+$" placeholder="Full Name" required />
+              <div class="invalid-feedback">Enter valid name</div>
+          </div>
+          <div class="row mt-4">
+              <input type="email" class="form-control col-sm-10 ml-4" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$" placeholder="Email" required />
+              <div class="invalid-feedback">Enter valid email</div>
+          </div>
+          <div class="row mt-4">
+            <div class="card-frame form-control col-sm-10 ml-4">
+            </div>
+            <div class="col-sm-10 ml-4">
+              <p class="error-message error"></p>
+              <p class="success-payment-message"></p>
+            </div>
+          </div>
+          </form>
+        </form>
+      </div>
+      <div class="card-footer text-muted">
+        <div class="one-liner">
+          <!-- add submit button -->  
+          <button class="btn btn-secondary col-sm-6" style="background-color: lightslategrey; color: white;" id="pay-button" disabled>
+            <span class="" role="status" aria-hidden="true"></span>
+            Pay Now
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content"  style="height: 500px;">
+      <div class="modal-body">
+        <iframe id="iframe" name="myIframe" frameborder="5" width="100%" height="100%"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    $("#pay-button").click(function(){
+        setSpin(true, 'pay-button');      
+    })
+  });
+</script>
+<script src="https://cdn.checkout.com/js/framesv2.min.js"></script>
+<script src="payNow.js"></script>
+</body>
+</html>

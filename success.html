@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="height=device-height, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://hosted.paysafe.com/request/v1/latest/paysafe.request.min.js"></script>
+</head>
+<body>
+<div class="jumbotron text-center" style="background-color: #435d78;">
+  <h1 style="color: beige;">Web Store</h1>
+  <p></p> 
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="p-3 mb-2 bg-success text-white">Success!</div>
+    </div>
+  </div>
+  <div id="result"></div>
+</div>
+<script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const sessionId = urlParams.get('cko-session-id');
+
+  var settings = {
+  "url": "https://api.sandbox.checkout.com/payments/"+sessionId,
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "sk_test_0b9b5db6-f223-49d0-b68f-f6643dd4f808"
+  }
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  $('#result').append(
+    '<table class="table">' +
+      '<tr>'+
+        '<th scope="row">Payment Reference:</th>'+
+        '<td>'+response.id+'</td>'+
+        '</tr>'+
+      '<tr>'+
+        '<th scope="row">Customer ID:</th>'+
+        '<td>'+response.customer.id+'</td>'+
+        '</tr>'+
+       ' <tr>'+
+          '<th scope="row">Amount:</th>'+
+          '<td>'+ response.amount+response.currency +'</td>'+
+        '</tr>'+
+       ' <tr>'+
+          '<th scope="row">Card Details:</th>'+
+         ' <td>'+response.source.bin + "xxxx" + response.source.last4 + " " + response.source.scheme+'</td>'+
+        '</tr>'+
+      '</tbody>'+
+    '</table>'
+  );
+  });
+</script>
+</body>
+</html>
